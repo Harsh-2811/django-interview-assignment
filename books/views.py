@@ -1,3 +1,4 @@
+from urllib import request
 from django.shortcuts import render
 from .models import *
 from .serializers import *
@@ -21,8 +22,10 @@ class createBook(generics.CreateAPIView):
     serializer_class = BookSerializer
     
     def perform_create(self, serializer):
+        """Some doc here!"""
         obj = serializer.save()
-        print(obj.id)
+        obj.added_by = self.request.user
+        obj.save()
 
 class listOutBook(generics.ListAPIView):
     serializer_class = BookSerializer
